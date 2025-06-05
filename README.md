@@ -12,3 +12,4 @@ Packages:
 - hyprpaper
 - fuzzel
 - waybar
+- yazi

@@ -7,6 +7,8 @@
 !.config
 !.config/hypr
 !.config/hypr/*
+!.config/hypr/wallpapers/default.jpg
+!.config/hypr/icons/default.jpg
 !.config/waybar
 !.config/waybar/*
 !.config/fuzzel

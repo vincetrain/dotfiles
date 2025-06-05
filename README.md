@@ -14,4 +14,6 @@ Packages:
 - hyprpaper
 - fuzzel
 - waybar
+    - pipewire
+    - pipewire-pulse
 - yazi

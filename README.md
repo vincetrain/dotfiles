@@ -1,5 +1,5 @@
 # dotfiles
-![]("https://i.imgur.com/R0va5uy.png")
+![](https://i.imgur.com/R0va5uy.png)
 
 I finally got to re-setting up my Arch installation :3
 

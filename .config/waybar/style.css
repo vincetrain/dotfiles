@@ -1,0 +1,16 @@
+window#waybar {
+	background-color: rgba(40,40,40,0.7);
+	border-radius: 25px;
+}
+
+.modules-left {
+	margin-left: 15px;
+}
+
+.modules-right {
+	margin-right: 20px;
+}
+
+* {
+	color: rgba(255,255,255,1)
+}

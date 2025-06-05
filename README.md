@@ -8,7 +8,7 @@ Thus, this repository will contain all dotfiles used for my installation.
 Packages:
 - nvim
 - fastfetch
-- hypr
+- hyprland
 - hyprlock
 - hypridle
 - hyprpaper

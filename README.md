@@ -11,6 +11,7 @@ Packages:
 - hyprland
 - hyprlock
 - hypridle
+- hyprshot
 - hyprpaper
 - fuzzel
 - waybar

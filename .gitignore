@@ -11,6 +11,7 @@
 !.config/hypr/icons/default.jpg
 !.config/waybar
 !.config/waybar/*
+!.config/waybar/menus/*
 !.config/fuzzel
 !.config/fuzzel/*
 !.config/kitty

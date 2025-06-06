@@ -1,3 +1,8 @@
+* {
+	color: rgba(255,255,255,1);
+	font-family: "NotoSansMono-Regular";
+}
+
 window#waybar {
 	background-color: rgba(40,40,40,0.6);
 	border-radius: 25px;
@@ -10,14 +15,31 @@ window#waybar {
 	background-color: rgba(40,40,40,0.6);
 }
 
+#backlight {
+	min-width: 54px;
+}
+
+#pulseaudio {
+	min-width: 54px;
+}
+
+#pulseaudio.bluetooth {
+	min-width: 70px;
+}
+
+#workspaces button {
+	opacity: 0.4;
+}
+
+#workspaces button.active {
+	opacity: 1;
+}
+
 .modules-left {
-	margin-left: 15px;
+	margin-left: 20px;
 }
 
 .modules-right {
 	margin-right: 20px;
 }
 
-* {
-	color: rgba(255,255,255,1)
-}

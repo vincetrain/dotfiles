@@ -10,19 +10,21 @@
     "spacing": 15, // Gaps between modules (4px)
     // Choose the order of the modules
     "modules-left": [
-	"hyprland/workspaces"
+		"custom/icon",
+		"hyprland/workspaces"
     ],
     "modules-center": [
+		"clock",
+    ],
+    "modules-right": [
 		"cpu",
 		"memory",
 		"temperature",
-    ],
-    "modules-right": [
 		"pulseaudio",
 		"network",
 		"backlight",
         "battery",
-        "clock",
+		"power-profiles-daemon",
 		"custom/power",
     ],
     // Modules configuration
@@ -32,7 +34,8 @@
     "clock": {
         "timezone": "Canada/Eastern",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
+		"format": "{:%D %I:%m:%S %p}",
+		"interval": 1
     },
     "cpu": {
         "format": " {usage}%",
@@ -64,7 +67,6 @@
         "format-full": "{icon} {capacity}%",
         "format-charging": " {capacity}%",
         "format-plugged": " {capacity}%",
-        "format-alt": "{icon} {time}",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
         "format-icons": ["", "", "", "", ""]
@@ -76,16 +78,13 @@
         "tooltip-format": " {ifname} via {gwaddr}",
         "format-linked": " {ifname} (No IP)",
         "format-disconnected": "⚠ Disconnected",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "{format_source} {icon} {volume}%",
-        "format-bluetooth": "{format_source} {icon} {volume}%",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": "{format_source}  ",
-        "format-source": " {volume}%",
-        "format-source-muted": "",
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon}  {volume}%",
+        "format-bluetooth-muted": "{icon}   ",
+        "format-muted": " ",
         "format-icons": {
             "headphone": "",
             "hands-free": "",
@@ -96,4 +95,31 @@
             "default": ["", "", ""]
         },
     },
+	"custom/icon": {
+		"format": "󰣇",	
+	},
+	"power-profiles-daemon": {
+		"format": "{icon} ",
+		"format-icons": {
+   			"default": "",
+    		"performance": "",
+    		"balanced": "",
+    		"power-saver": ""
+  		}
+	},
+	"custom/power": {
+		"format": "",
+		"menu": "on-click",
+		"menu-file": "$HOME/.config/waybar/menus/powermenu.xml",
+		"menu-actions": {
+			"shutdown": "poweroff",
+			"reboot": "reboot",
+			"suspend": "systemctl suspend",
+			"hibernate": "systemctl hibernate"
+		}
+	},
+	"custom/seperator": {
+		"format": "|",
+	}
 }
+u

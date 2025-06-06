@@ -20,3 +20,5 @@
 !.config/nvim/*
 !.config/fastfetch
 !.config/fastfetch/*
+!.config/spotify-player
+!.config/spotify-player/theme.toml

@@ -1,0 +1,23 @@
+[[themes]]
+name = "adwaita-dark"
+[themes.palette]
+background = "#1d1d1d"
+foreground = "#deddda"
+black = "#1d1d1d"
+red = "#ed333b"
+green = "#57e389"
+yellow = "#ff7800"
+blue = "#62a0ea"
+magenta = "#9141ac"
+cyan = "#5bc8af"
+white = "#deddda"
+bright_black = "#9a9996"
+bright_red = "#f66151"
+bright_green = "#8ff0a4"
+bright_yellow = "#ffa348"
+bright_blue = "#99c1f1"
+bright_magenta = "#dc8add"
+bright_cyan = "#93ddc2"
+bright_white = "#f6f5f4"
+[themes.component_style]
+block_title = {	fg = "#62a0ea" }

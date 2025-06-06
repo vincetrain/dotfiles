@@ -18,3 +18,5 @@ Packages:
     - pipewire
     - pipewire-pulse
 - yazi
+- spotify_player
+> Consider viewing my [scripts](https://github.com/vincetrain/scripts) repository for a script managing full spotifyd + spotify_player functionality

@@ -10,7 +10,6 @@
 	margin-right: 10px;
 }
 
-
 window#waybar {
 	background-color: rgba(40,40,40,0);
 	border-color: rgba(89,89,89,0);
@@ -31,7 +30,7 @@ window#waybar {
 }
 
 #cava {
-	min-width: 520px;
+	min-width: 515px;
 }
 
 #group-hardware .module, #group-system .module {
@@ -55,6 +54,21 @@ window#waybar {
 	border-color: rgba(89,89,89,0.67);
 	padding: 0 10 0 15;
 }
+
+#workspaces button:hover {
+	color: rgba(255,255,255,0.6);
+	background-color: rgba(89,89,89,1);
+	border-style: none;
+	margin: 0;
+	padding: 0 10;
+	border-radius: 0;
+	box-shadow: none; /* Remove predefined box-shadow */
+	text-shadow: none; /* Remove predefined text-shadow */
+	background: none; /* Remove predefined background color (white) */
+	transition: none; /* Disable predefined animations */
+
+}
+
 
 #workspaces button.active {
 	color: rgb(98,160,234);

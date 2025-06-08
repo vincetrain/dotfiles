@@ -7,6 +7,9 @@ Thus, this repository will contain all dotfiles used for my installation.
 
 Packages:
 - nvim
+- ttf-font-awesome
+- noto-fonts
+- ttf-noto-nerd
 - fastfetch
 - hyprland
 - hyprlock
@@ -19,4 +22,4 @@ Packages:
     - pipewire-pulse
 - yazi
 - spotify_player
-> Consider viewing my [scripts](https://github.com/vincetrain/scripts) repository for a script managing full spotifyd + spotify_player functionality
+    - Consider viewing my [scripts](https://github.com/vincetrain/scripts) repository for a script managing full spotifyd + spotify_player functionality

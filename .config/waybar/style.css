@@ -1,15 +1,66 @@
 * {
-	color: rgba(255,255,255,1);
 	font-family: "NotoSansMono-Regular";
 }
 
+.modules-left {
+	margin-left: 10px;
+}
+
+.modules-right {
+	margin-right: 10px;
+}
+
+
 window#waybar {
-	background-color: rgba(40,40,40,0.6);
-	border-radius: 25px;
+	background-color: rgba(40,40,40,0);
+	border-color: rgba(89,89,89,0);
+	border-radius: 0px;
+}
+
+#group-hardware, #group-system, #clock, #cava {
+	background-color: rgba(40,40,40,1);
+	border-radius: 20px;
 	border-style: solid;
 	border-color: rgba(89,89,89,0.67);
 	border-width: 2px;
+	padding: 0 10px;
 }
+
+#clock, #cava {
+	padding: 0 20px;
+}
+
+#cava {
+	min-width: 520px;
+}
+
+#group-hardware .module, #group-system .module {
+	margin: 0 10;
+}
+
+#group-workspaces {
+	background-color: rgba(40,40,40,1);
+	border-radius: 20px;
+	border-style: solid;
+	border-color: rgba(89,89,89,1);
+	border-width: 2px;
+	padding-right: 10px;
+}
+
+#custom-icon {
+	color: rgba(98,160,234,1);
+	border-radius: 25px;
+	border-style: solid;
+	border-width: 0 0 0 0;
+	border-color: rgba(89,89,89,0.67);
+	padding: 0 10 0 15;
+}
+
+#workspaces button.active {
+	color: rgb(98,160,234);
+	border-radius: 0;
+}
+
 
 #menu {
 	background-color: rgba(40,40,40,0.6);
@@ -25,21 +76,5 @@ window#waybar {
 
 #pulseaudio.bluetooth {
 	min-width: 70px;
-}
-
-#workspaces button {
-	opacity: 0.4;
-}
-
-#workspaces button.active {
-	opacity: 1;
-}
-
-.modules-left {
-	margin-left: 20px;
-}
-
-.modules-right {
-	margin-right: 20px;
 }
 

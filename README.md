@@ -1,5 +1,5 @@
 # dotfiles
-![](https://i.imgur.com/Cy6yVQl.png)
+![](https://i.imgur.com/lHojLnB.png)
 
 I finally got to re-setting up my Arch installation :3
 
@@ -17,9 +17,10 @@ Packages:
 - hyprshot
 - hyprpaper
 - fuzzel
-- waybar
+- waybar-cava
     - pipewire
     - pipewire-pulse
+    - cava
 - yazi
 - spotify_player
     - Consider viewing my [scripts](https://github.com/vincetrain/scripts) repository for a script managing full spotifyd + spotify_player functionality

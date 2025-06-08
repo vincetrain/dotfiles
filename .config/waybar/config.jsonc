@@ -29,7 +29,7 @@
         "framerate": 30,
         "autosens": 1,
         "sensitivity": 1,
-        "bars": 47,
+        "bars": 45,
         "lower_cutoff_freq": 50,
         "higher_cutoff_freq": 15000,
         "hide_on_silence": false,
@@ -58,23 +58,23 @@
 		"interval": 1
     },
     "cpu": {
-        "format": " {usage}%",
+        "format": " {usage:3}%",
         "tooltip": false
     },
     "memory": {
-        "format": " {}%"
+        "format": " {:3}%"
     },
     "temperature": {
         // "thermal-zone": 2,
         // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
         "critical-threshold": 80,
         // "format-critical": "{temperatureC}°C {icon}",
-        "format": "{icon} {temperatureC}°C",
+        "format": "{icon} {temperatureC:3}°C",
         "format-icons": ["", "", ""]
     },
     "backlight": {
         // "device": "acpi_video1",
-        "format": "{icon} {percent}%",
+        "format": "{icon} {percent:3}%",
         "format-icons": ["", "", "", "", "", "", "", "", ""]
     },
     "battery": {
@@ -83,17 +83,17 @@
             "warning": 30,
             "critical": 15
         },
-        "format": "{icon} {capacity}%",
-        "format-full": "{icon} {capacity}%",
-        "format-charging": " {capacity}%",
-        "format-plugged": " {capacity}%",
+        "format": "{icon} {capacity:3}%",
+        "format-full": "{icon} {capacity:3}%",
+        "format-charging": " {capacity:3}%",
+        "format-plugged": " {capacity:3}%",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
         "format-icons": ["", "", "", "", ""]
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": " {essid} ({signalStrength}%)",
+        "format-wifi": " {essid:6} ({signalStrength:3}%)",
         "format-ethernet": " {ipaddr}/{cidr}",
         "tooltip-format": " {ifname} via {gwaddr}",
         "format-linked": " {ifname} (No IP)",
@@ -101,8 +101,8 @@
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "{icon} {volume}%",
-        "format-bluetooth": "{icon}  {volume}%",
+        "format": "{icon} {volume:3}%",
+        "format-bluetooth": "{icon}  {volume:3}%",
         "format-bluetooth-muted": "{icon}   ",
         "format-muted": " ",
         "format-icons": {

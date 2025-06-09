@@ -17,10 +17,10 @@ window#waybar {
 }
 
 #group-workspaces, #group-hardware, #group-system, #clock, #cava {
-	background-color: rgba(40,40,40,1);
+	background-color: rgba(40,40,40,0.8);
 	border-radius: 20px;
 	border-style: solid;
-	border-color: rgba(89,89,89,0.67);
+	border-color: rgba(89,89,89,0.47);
 	border-width: 2px;
 }
 

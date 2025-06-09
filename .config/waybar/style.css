@@ -16,12 +16,15 @@ window#waybar {
 	border-radius: 0px;
 }
 
-#group-hardware, #group-system, #clock, #cava {
+#group-workspaces, #group-hardware, #group-system, #clock, #cava {
 	background-color: rgba(40,40,40,1);
 	border-radius: 20px;
 	border-style: solid;
 	border-color: rgba(89,89,89,0.67);
 	border-width: 2px;
+}
+
+#group-hardware, #group-system {
 	padding: 0 10px;
 }
 
@@ -30,7 +33,7 @@ window#waybar {
 }
 
 #cava {
-	min-width: 496px;
+	min-width: 482px;
 }
 
 #group-hardware .module, #group-system .module {
@@ -38,11 +41,6 @@ window#waybar {
 }
 
 #group-workspaces {
-	background-color: rgba(40,40,40,1);
-	border-radius: 20px;
-	border-style: solid;
-	border-color: rgba(89,89,89,1);
-	border-width: 2px;
 	padding-right: 10px;
 }
 
@@ -80,15 +78,16 @@ window#waybar {
 	background-color: rgba(40,40,40,0.6);
 }
 
-#backlight {
+#pulseaudio, #backlight, #cpu, #memory {
 	min-width: 54px;
 }
 
-#pulseaudio {
-	min-width: 54px;
+#temperature {
+	min-width: 60px;
 }
 
 #pulseaudio.bluetooth {
 	min-width: 70px;
 }
+
 

@@ -33,7 +33,7 @@ window#waybar {
 }
 
 #cava {
-	min-width: 482px;
+	min-width: 460px;
 }
 
 #group-hardware .module, #group-system .module {

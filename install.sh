@@ -34,6 +34,7 @@ yay -S --needed --noconfirm eww gnome-themes-extra-gtk2 adwaita-qt5-git adwaita-
 
 echo Symlinking configuration files...
 sudo ./home/.local/bin/lnr ./etc/ /etc/
+mkdir -p $HOME/.local/bin
 ./home/.local/bin/lnr ./home $HOME
 
 echo Enable systemd services...

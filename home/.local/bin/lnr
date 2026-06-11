@@ -1,0 +1,39 @@
+#!/bin/bash
+shopt -s dotglob
+
+function expand_dir() {
+    for file in "$1"/*; do
+        dest_path="$2/$(basename $file)"
+        if [[ -d $file ]]; then
+            if [[ -d $dest_path ]]; then
+                # do something
+                echo "$dest_path already exists, attempting to go deeper..."
+                expand_dir $file $dest_path
+            else
+                echo "Creating symbolic link of $file to $dest_path."
+                ln -s $file $dest_path
+            fi
+        else
+            if [[ -f "$dest_path" ]]; then
+                echo "$dest_path already exists, skipping..."
+            else
+                echo "Creating symbolic link of $file to $dest_path."
+                ln -s $file $dest_path
+            fi
+        fi
+    done
+}
+
+if [[ -z "$1" || -z "$2" ]]; then
+    echo "ERROR: Must provide source and destination paths"
+    echo "Usage: lnr [source] [destination]"
+    exit 1
+fi
+
+pushd $1 > /dev/null
+srcdir=$(pwd)
+popd > /dev/null
+pushd $2 > /dev/null
+dstdir=$(pwd)
+popd > /dev/null
+expand_dir $srcdir $dstdir

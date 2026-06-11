@@ -2,8 +2,13 @@
 
 set -e
 
-echo Installing required packages
-pacman -S --needed --noconfirm \
+if [[ $UID -eq 0 ]]; then
+    echo "ERROR: This script should not be run with sudo, or as root."
+    exit 1
+fi
+
+echo Installing required packages...
+sudo pacman -S --needed --noconfirm \
     base-devel git \
     pipewire pipewire-pulse pipewire-alsa wireplumber \
     networkmanager \
@@ -16,7 +21,7 @@ pacman -S --needed --noconfirm \
     ripgrep playerctl jq \
     noto-fonts noto-fonts-emoji ttf-dejavu
 
-echo Installing yay if needed
+echo Installing yay if needed...
 if ! command -v yay &> /dev/null; then
     git clone https://aur.archlinux.org/yay.git
     pushd yay
@@ -24,13 +29,13 @@ if ! command -v yay &> /dev/null; then
     popd
 fi
 
-echo Installing required packages with yay
+echo Installing required packages with yay...
 yay -S --needed --noconfirm eww gnome-themes-extra-gtk2 adwaita-qt5-git adwaita-qt6-git
 
-echo Copying configuration files
-cp -r ./etc/ /etc/
-cp -r ./home $HOME
+echo Symlinking configuration files...
+sudo ./home/.local/bin/lnr ./etc/ /etc/
+./home/.local/bin/lnr ./home $HOME
 
-echo Enable systemd services
-systemctl enable NetworkManager
-systemctl enable greetd
+echo Enable systemd services...
+sudo systemctl enable NetworkManager
+sudo systemctl enable greetd

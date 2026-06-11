@@ -1,0 +1,47 @@
+(defvar workspaces_show_magic false)
+
+(defpoll workspaces_active
+  :interval '0.1s'
+  :run-while {! is-fullscreen}
+  `hyprctl activeworkspace -j | jq '.id'`
+)
+
+(defpoll workspaces_special
+  :interval '0.1s'
+  :run-while {! is-fullscreen}
+  `hyprctl monitors -j | jq '.[0].specialWorkspace.id'`
+)
+
+(defpoll workspaces_list
+  :interval '0.2s'
+  :run-while {! is-fullscreen}
+  `hyprctl workspaces -j | jq '[.[] | select(.id > 0)] | sort_by(.id)'`
+)
+
+(defwidget workspaces []
+  (box
+    ;; for some reason, having a widget that directly uses workspaces_active variable is the ONLY way to get it to poll...
+    (label 
+      :visible false
+      :text workspaces_active
+    )
+    (revealer_on_action_left
+      :var {workspaces_special < 0 ? true : false }
+      :transition 'slideleft'
+      :duration '0.2s'
+      (box
+        (for workspace in workspaces_list
+          (button 
+            :class `workspaces-button ${workspaces_active == workspace.id ? 'workspaces-button--active' : 'workspaces-button--inactive'}`
+            :onclick 'hyprctl dispatch focusworkspaceoncurrentmonitor ${workspace.id}'
+            (label :class 'workspaces-button--text' :text {workspace.id})
+          )
+        )
+      )
+      (label
+        :class 'workspaces-button workspaces-button--active'
+        :text 'magic'
+      )
+    )
+  )
+)

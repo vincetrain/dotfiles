@@ -1,0 +1,32 @@
+#!/bin/bash
+
+screenshotdir="$HOME/Pictures/Screenshots/$(date +%F)"
+filename="$screenshotdir/$(date +%F_%H-%M-%S.png)"
+
+if [[ $1 == 'area' ]]; then
+    grim -g "$(slurp)" $filename
+    wl-copy < $filename
+elif [[ $1 == 'screen' ]]; then
+    if [[ -n $2 ]]; then
+        grim -o $2 $filename
+    else
+        workspace_curr=$(hyprctl monitors -j | jq '.[0].specialWorkspace.id')
+        if [[ $workspace_curr -eq 0 ]]; then
+            workspace_curr=$(hyprctl activeworkspace -j | jq '.id')
+        fi
+        output=$(hyprctl workspaces -j | jq ".[] | select(.id==$workspace_curr) | .monitor")
+        output=${output//\"/}
+        mkdir -p $screenshotdir
+        grim -o $output $filename
+    fi
+    wl-copy < $filename
+else
+    echo "Usage: screenshot OPTION"
+    echo "Outputs to: $HOME/Pictures/Screenshots/YY-MM-DD_HH-MM-SS.png"
+    echo
+    echo "OPTIONS:"
+    printf "  %-20s %s" "area" "Select and screenshot an area on a display."
+    echo
+    printf "  %-20s %s" "screen [display]" "Screenshot a provided display, or the currently focused display if no display is provided."
+    echo
+fi

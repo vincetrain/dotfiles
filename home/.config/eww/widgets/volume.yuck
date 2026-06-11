@@ -1,0 +1,107 @@
+(include './widgets/templates.yuck')
+
+(defvar volume_reveal false)
+
+(deflisten volume_countdown
+  :initial 0
+  :run-while {!is-fullscreen}
+  `tail -F /tmp/eww/state/volume_state.count`
+)
+
+(deflisten volume_muted
+  :initial 0
+  :run-while {!is-fullscreen}
+  `tail -F /tmp/eww/state/volume_muted_state`
+)
+
+(deflisten volume_value
+  :initial 0
+  :run-while {!is-fullscreen}
+  `tail -F /tmp/eww/state/volume_state`
+)
+
+(defwidget volume_high []
+  (label
+    :text ''
+  )
+)
+
+(defwidget volume_med []
+  (label
+    :text ''
+  )
+)
+
+(defwidget volume_low []
+  (label
+    :text ''
+  )
+)
+
+(defwidget volume_none []
+  (label
+    :text ''
+  )
+)
+
+(defwidget volume_muted []
+  (label
+    :text ''
+  )
+)
+
+
+(defwidget volume_symbol []
+  (stack
+    :class 'volume-symbol'
+    :selected {
+      volume_muted == 1 ? 4 :
+      volume_value == 0 ? 0 :
+      volume_value < 30 ? 1 :
+      volume_value < 65 ? 2 : 3
+    }
+    :transition 'none'
+    :same-size true
+    (volume_none)
+    (volume_low)
+    (volume_med)
+    (volume_high)
+    (volume_muted)
+  )
+)
+
+(defwidget volume_slider []
+  (scale
+    :flipped false
+    :class 'volume-slider'
+    :value volume_value
+    :orientation 'h'
+    :min 0
+    :max 101
+    :round-digits 0
+    :onchange `volume-manager.sh set {}`
+  )
+)
+
+(defwidget volume_content []
+  (box
+    :space-evenly false
+    :spacing 0
+    :class 'volume-content'
+    (volume_slider)
+  )
+)
+
+(defwidget volume []
+  (revealer_on_action_right
+    :tooltip '${volume_value}%'
+    :onhover true
+    :class 'volume'
+    :var {volume_reveal == true ? true : volume_countdown > 0 ? true : false}
+    :varname 'volume_reveal' 
+    :transition 'slideright' 
+    :duration '0.2s'
+    (volume_symbol)
+    (volume_content)
+  )
+)

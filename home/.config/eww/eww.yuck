@@ -1,0 +1,59 @@
+(include './globals.yuck')
+(include './widgets/templates.yuck')
+(include './widgets/icon.yuck')
+(include './widgets/workspaces.yuck')
+(include './widgets/volume.yuck')
+(include './widgets/brightness.yuck')
+(include './widgets/battery.yuck')
+(include './widgets/clock.yuck')
+
+(defwindow dock
+  :monitor 0
+  :geometry (geometry
+    :x '0%'
+    :y '0%'
+    :width '100%'
+    :anchor 'top center'
+  )
+  :stacking 'overlay'
+  :exclusive 'true'
+  :namespace 'eww-dock'
+  (centerbox
+    :class 'dock-container'
+    :visible {!is_fullscreen}
+    :orientation 'h'
+    (left)
+    (center)
+    (right)
+  )
+)
+
+(defwidget left []
+  (box
+    :space-evenly false
+    :spacing 10
+    :halign 'start'
+    (icon)
+    (workspaces)
+  ) 
+)
+(defwidget center []
+  (box
+    :space-evenly false
+    :spacing 10
+    :halign 'center'
+    
+  ) 
+)
+
+(defwidget right []
+  (box
+    :space-evenly false
+    :spacing 10
+    :halign 'end'
+    (volume)
+    (brightness)
+    (battery)
+    (clock)
+  ) 
+)

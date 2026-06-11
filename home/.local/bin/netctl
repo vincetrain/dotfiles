@@ -1,0 +1,71 @@
+#!/bin/python3
+
+import os
+import re
+import argparse
+
+def getNetworks(showHidden=False):
+    command = 'nmcli -g bssid,bars,ssid,rate,security,in-use dev wifi list'
+    networksRaw = os.popen(command).read().splitlines()
+    networksList = []
+    for network in networksRaw:
+        networkEntry = re.split(r'(?<!\\):',network)
+        networkEntry[0] = networkEntry[0].replace('\\:',':')
+        
+        if (len(networkEntry[2])==0 and not showHidden):
+            continue
+
+        networksList.append(networkEntry)
+    return networksList
+
+def connect(network):
+    command = f'nmcli dev wifi connect {network[0]} --ask'
+    os.system(command)
+
+def printNetworks(networksList, showBssid=False):
+    if (showBssid):
+        print('%-3s %-6s %-17s %-33s %-12s %-10s' % ('IDX', 'SIGNAL', 'BSSID', 'SSID', 'SPEED', 'SECURITY'))
+        printRow = lambda i, network: print(
+                '%2d: %-6s %-17s %-33s %-12s %-10s' % (i, networksList[i][1], network[0], network[2] + network[5], network[3], network[4])
+        )
+    else:
+        print('%-3s %-6s %-33s %-12s %-10s' % ('IDX', 'SIGNAL', 'SSID', 'SPEED', 'SECURITY'))
+        printRow = lambda i, network: print(
+            '%2d: %-6s %-33s %-12s %-10s' % (i, network[1], network[2] + network[5], network[3], network[4])
+        )
+
+    connected = None
+    for i in range(0, len(networksList)):
+        if (networksList[i][5] == '*'):
+            connected = networksList[i][2]
+        printRow(i,networksList[i])
+    print(f'Connected to: {connected}')
+
+def __main__(args):
+    print('\033[s',end='')
+    networksList = getNetworks(args.hidden)
+    userSelection = None
+    while (userSelection != 'q'):
+        print('\033[u', end='')
+        print('\033[J', end='')
+        printNetworks(networksList, (True if args.hidden == True or args.bssid == True else False))
+        userSelection = input(f'Select a network index (0-{len(networksList)-1}, r to refresh, q to quit): ')
+        if (userSelection == 'q'):
+            exit(0)
+        elif (userSelection == 'r'):
+            networksList = getNetworks(args.hidden)
+        elif (userSelection.isdigit() and int(userSelection) < len(networksList)):
+            userSelection = int(userSelection)
+            connect(networksList[userSelection])
+            networksList = getNetworks(args.hidden)
+
+if __name__ == '__main__':
+    try:
+        parser = argparse.ArgumentParser(description='Manage connected networks on this device.')
+        parser.add_argument('-b', '--bssid', action='store_true', default=False, help='Show BSSIDs of networks')
+        parser.add_argument('--hidden', action='store_true', default=False, help='Show all hidden networks and BSSIDs (networks without an SSID)')
+        args = parser.parse_args()
+        __main__(args)
+        exit(0)
+    except KeyboardInterrupt:
+        exit(1)

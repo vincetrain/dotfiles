@@ -1,0 +1,59 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+scale {
+  min-width: 150px;
+}
+
+scale highlight {
+  background-color: #ffffff;
+  border: none;
+}
+scale trough {
+  border: none;
+  background-color: #2f2f2f;
+}
+
+scale slider {
+  background: transparent;
+  border: none;
+  border-radius: 0px;
+  min-height: 5px;
+  min-width: 0px;
+  margin: 0px;
+}
+
+.dock {
+  color: white;
+  background-color: rgba(0,0,0,1);
+  margin: 0px 0px 0px 0px;
+  min-height: 40px;
+  padding: 0px 20px;
+}
+
+.revealer-on-action--right scale {
+  padding-left: 10px;
+}
+
+.revealer-on-action--left scale {
+  padding-right: 10px;
+}
+
+.workspaces-button {
+  padding: 0 10px;
+  color: white;
+  background: transparent;
+  background-color: transparent;
+  border: none;
+}
+
+.workspaces-button--active {
+  background: transparent;
+  background-color: transparent;
+}
+
+.workspaces-button--inactive {
+  color: rgba(200,200,200,0.5)
+}

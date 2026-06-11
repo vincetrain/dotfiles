@@ -1,0 +1,43 @@
+#!/bin/bash
+
+dir_path="/tmp/eww/state/"
+should_mute=false
+
+mkdir -p $dir_path
+touch "$dir_path/volume_state"
+touch "$dir_path/volume_muted_state"
+
+if [[ $1 == "raise" ]]; then
+    echo Raising volume by $2%
+    wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ $2%+
+elif [[ $1 == "lower" ]]; then
+    echo Lowering volume by $2%
+    wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ $2%-
+elif [[ $1 == "set" ]]; then
+    echo Setting volume to $2%
+    wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ $2%
+elif [[ $1 == "toggle-mute" ]]; then
+    echo Toggling volume mute
+    wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+    should_mute=true
+else 
+    exit 1
+fi
+
+vol_string=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
+vol_current=$(echo $vol_string | cut -d" " -f2)
+vol_percent=$(printf %.0f $(echo "$vol_current*100" | bc -l))
+
+if [[ $should_mute = true ]]; then
+    vol_string=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
+    vol_muted=0
+    [ $(echo $vol_string | cut -d" " -f3) == "[MUTED]" ] && vol_muted=1 || vol_muted=0
+    echo "Updating $dir_path/volume_muted_state to $vol_muted"
+    sed -i "1d" "$dir_path/volume_muted_state"
+    printf "%d\n" "$vol_muted" > "$dir_path/volume_muted_state"
+else
+    echo "Updating $dir_path/volume_state to $vol_percent"
+    sed -i "1d" "$dir_path/volume_state"
+    printf "%d\n" "$vol_percent" > "$dir_path/volume_state"
+    countdown reset "$dir_path/volume_state" 2 &
+fi

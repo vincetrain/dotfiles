@@ -1,0 +1,70 @@
+(include './widgets/templates.yuck')
+
+(defvar reveal_battery false)
+
+(defpoll battery_value
+  :initial 0
+  :interval '1s'
+  :run-while {!is_fullscreen}
+  `cat /sys/class/power_supply/BAT0/capacity`
+)
+
+(defpoll battery_is_charging
+  :initial 0
+  :interval '1s'
+  :run-while {!is_fullscreen}
+  `cat /sys/class/power_supply/ADP1/online`
+)
+
+(defwidget battery_charging []
+  (label :text '')
+)
+(defwidget battery_full []
+  (label :text '')
+)
+(defwidget battery_high []
+  (label :text '')
+)
+(defwidget battery_med []
+  (label :text '')
+)
+(defwidget battery_low []
+  (label :text '')
+)
+(defwidget battery_empty []
+  (label :text '')
+)
+
+(defwidget battery_symbol []
+  (stack
+    :class 'battery-symbol'
+    :selected {
+      battery_is_charging == 1 ? 5 :
+      battery_value < 10 ? 0 :
+      battery_value < 50 ? 1 :
+      battery_value < 70 ? 2 :
+      battery_value < 99 ? 3 : 4
+    } 
+    :transition 'none'
+    :same-size true
+    (battery_empty)
+    (battery_low)
+    (battery_med)
+    (battery_high)
+    (battery_full)
+    (battery_charging)
+  )
+)
+
+(defwidget battery []
+  (revealer_on_action_left
+    :spacing 2
+    :onhover true
+    :var {reveal_battery == true ? true : battery_value < 100 ? true : false}
+    :varname 'reveal_battery'
+    :transition 'slideleft'
+    :duration '0.1s'
+    (battery_symbol)
+    (label :text '${battery_value}%')
+  )
+)

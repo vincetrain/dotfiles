@@ -1,0 +1,45 @@
+#!/bin/bash
+## TODO: probably re-write this in python....
+
+if [[ $1 == "get-sinks" ]]; then
+    default=$(pw-dump | jq -r '.[].metadata[]? | select(.key=="default.audio.sink") | .value.name')
+    if [[ $2 == "-j" || $2 == "--json" ]]; then
+        pw-dump | jq --arg default $default -r '[.[] | select(.info.props."media.class"=="Audio/Sink") | {id:.id,name:.info.props."node.name",description:.info.props."node.description",isDefault:(.info.props."node.name"==$default)}]'
+    elif [[ $2 == "-h" || $2 == "--help" ]]; then
+        printf "Usage: audio-manager get-sinks [OPTIONS]\n\n"
+        printf "OPTIONS:\n"
+        printf "  %-20s %s\n" "-h,--help" "Prints this help."
+        printf "  %-20s %s\n\n" "-j,--json" "Outputs to JSON format."
+    else
+        pw-dump | jq --arg default $default -r '.[] | select(.info.props."media.class"=="Audio/Sink") | "\(.id):\(.info.props."node.name"):\(.info.props."node.description"):\(if .info.props."node.name" == $default then "*" else "" end)"'
+    fi
+elif [[ $1 == "get-sources" ]]; then
+    default=$(pw-dump | jq -r '.[].metadata[]? | select(.key=="default.audio.source") | .value.name')
+    if [[ $2 == "-j" || $2 == "--json" ]]; then
+        pw-dump | jq --arg default $default -r '[.[] | select(.info.props."media.class"=="Audio/Source") | {id:.id,name:.info.props."node.name",description:.info.props."node.description",isDefault:(.info.props."node.name"==$default)}]'
+    elif [[ $2 == "-h" || $2 == "--help" ]]; then
+        printf "Usage: audio-manager get-sources [OPTIONS]\n\n"
+        printf "OPTIONS:\n"
+        printf "  %-20s %s\n" "-h,--help" "Prints this help."
+        printf "  %-20s %s\n\n" "-j,--json" "Outputs to JSON format."
+    else
+        pw-dump | jq --arg default $default -r '.[] | select(.info.props."media.class"=="Audio/Source") | "\(.id):\(.info.props."node.name"):\(.info.props."node.description"):\(if .info.props."node.name" == $default then "*" else "" end)"'
+    fi
+elif [[ $1 == "set-default" ]]; then
+    if [[ -n $2 ]]; then
+        wpctl set-default $2
+    else
+        printf "Error: ID is required\n\n"
+        printf "Usage: audio-manager set-default ID\n\n"
+        printf "PARAMETERS:\n"
+        printf "  %-20s %s\n" "ID" "ID of sink/source device to set as default."
+    fi
+else
+    printf "Usage: audio-manager [OPTIONS] COMMAND\n\n"
+    printf "COMMANDS:\n"
+    printf "  %-20s %s\n" "get-sinks" "Gets ID and description of all audio sinks on this device."
+    printf "  %-20s %s\n" "get-sources" "Gets ID and description of all audio sources on this device."
+    printf "  %-20s %s\n" "set-default ID" "Sets default source/sink to specified ID."
+    printf "OPTIONS:\n"
+    printf "  %-20s %s\n\n" "-h,--help" "Prints this help."
+fi

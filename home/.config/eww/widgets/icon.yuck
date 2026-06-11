@@ -1,0 +1,5 @@
+(defwidget icon []
+  (label 
+    :class 'icon'
+    :text '')
+)

@@ -1,0 +1,73 @@
+#!/bin/python3
+
+import os
+import re
+import argparse
+
+def getSinks():
+    command = 'audiocli get-sinks'
+    sinksRaw = os.popen(command).read().splitlines()
+    sinkList = []
+    for sink in sinksRaw:
+        sinkEntry = re.split(r'(?<!\\):',sink)
+        sinkList.append(sinkEntry)
+    return sinkList
+
+def getSources():
+    command = 'audiocli get-sources'
+    sourcesRaw = os.popen(command).read().splitlines()
+    sourceList = []
+    for source in sourcesRaw:
+        sourceEntry = re.split(r'(?<!\\):',source)
+        sourceList.append(sourceEntry)
+    return sourceList
+
+def printDevices(deviceList):
+    print('%-3s  %s' % ('IDX', 'NAME'))
+    printRow = lambda i, device: print(
+        '%3d: %s' % (i, device[2] + f' {device[3]}')
+    )
+
+    connected = None
+    for i in range(0, len(deviceList)):
+        if (deviceList[i][3] == '*'):
+            connected = deviceList[i][2]
+        printRow(i,deviceList[i])
+    print(f'Connected to: {connected}')
+
+def setDefault(device):
+    command = f'audiocli set-default {device[0]}'
+    os.system(command)
+
+def __main__(args):
+    if (args.type == 'output' or args.type == 'sink'):
+        getDevices = lambda: getSinks()
+    elif (args.type == 'input' or args.type == 'source'):
+        getDevices = lambda: getSources()
+
+    print('\033[s',end='')
+    deviceList = getDevices()
+    userSelection = None
+    while (userSelection != 'q'):
+        print('\033[u', end='')
+        print('\033[J', end='')
+        printDevices(deviceList)
+        userSelection = input(f'Select a device index (0-{len(deviceList)-1}, r to refresh, q to quit): ')
+        if (userSelection == 'q'):
+            exit(0)
+        elif (userSelection == 'r'):
+            deviceList = getDevices()
+        elif (userSelection.isdigit() and int(userSelection) < len(deviceList)):
+            userSelection = int(userSelection)
+            setDefault(deviceList[userSelection])
+            deviceList = getDevices()
+
+if __name__ == '__main__':
+    try:
+        parser = argparse.ArgumentParser(description='Configures the default source or sink (audio input/output) on this device.')
+        parser.add_argument('type', choices=['input','output','sink','source'], help='Specify the type of device to configure.')
+        args = parser.parse_args()
+        __main__(args)
+        exit(0)
+    except KeyboardInterrupt:
+        exit(1)

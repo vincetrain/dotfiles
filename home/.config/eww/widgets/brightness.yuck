@@ -1,0 +1,74 @@
+(include './widgets/templates.yuck')
+
+(defvar brightness_reveal false)
+
+(deflisten brightness_countdown
+  :initial 0
+  :run-while {!is-fullscreen}
+  `tail -F /tmp/eww/state/brightness_state.count`
+)
+
+(defwidget brightness_high []
+  (label
+    :style 'font-weight: 900;'
+    :text ''
+  )
+)
+
+(defwidget brightness_low []
+  (label
+    :text ''
+  )
+)
+
+(deflisten brightness_value
+  :initial 0
+  `tail -n 1 -F /tmp/eww/state/brightness_state`
+)
+
+(defwidget brightness_symbol []
+  (stack
+    :class 'brightness-symbol'
+    :selected {round(brightness_value/99,0)}
+    :transition 'crossfade'
+    :same-size true
+    (brightness_low)
+    (brightness_high)
+  )
+)
+
+(defwidget brightness_slider []
+  (scale
+    :flipped false
+    :class 'brightness-slider'
+    :value brightness_value
+    :orientation 'h'
+    :min 1
+    :max 101
+    :round-digits 0
+    :onchange `brightness-manager set {}`
+  )
+)
+
+(defwidget brightness_content []
+  (box
+    :space-evenly false
+    :class 'brightness-content'
+    (brightness_slider)
+   ; (label :text '${brightness_value}%')
+  )
+)
+
+(defwidget brightness []
+  (revealer_on_action_right
+    :tooltip '${brightness_value}%'
+    :onhover true
+    :class 'brightness'
+    :var {brightness_reveal == true ? true : brightness_countdown > 0 ? true : false}
+    :varname 'brightness_reveal' 
+    :transition 'slideright' 
+    :duration '0.2s'
+    (brightness_symbol)
+    (brightness_content)
+  )
+)

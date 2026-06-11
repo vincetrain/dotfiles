@@ -1,0 +1,54 @@
+(include './widgets/templates.yuck')
+
+(defvar reveal_time false)
+(defvar show_calendar true)
+
+(defpoll time_string
+  :interval '1s'
+  :initial 'NO TIME'
+  :run-while {!is_fullscreen}
+  `date +'%I:%M %p'`
+)
+
+(defpoll date_string
+  :interval '1s'
+  :initial 'NO DATE'
+  :run-while {!is_fullscreen}
+  `date +'%b %d, %Y'`
+)
+
+(defwidget time_label []
+  (label
+    :class 'time-label'
+    :text time_string
+  )
+)
+
+(defwidget date_label []
+  (label
+    :class 'date-label'
+    :text date_string
+  )
+)
+
+(defwidget clock_content []
+  (box
+    :space-evenly false
+    :spacing 5
+    (separator :symbol 'on')
+    (date_label)
+  )
+)
+
+(defwidget clock []
+    (revealer_on_action_right
+      :onhover true
+      :var reveal_time
+      :spacing 5
+      :varname 'reveal_time'
+      :transition 'slideleft'
+      :duration '100ms'
+      (time_label)     
+      (clock_content)
+    )
+)

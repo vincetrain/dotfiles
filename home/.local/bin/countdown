@@ -1,0 +1,40 @@
+#!/bin/bash
+reset=0
+
+if [[ -z $1 || -z $2 ]]; then
+    exit 1
+fi
+
+if [[ $1 = 'reset' ]]; then
+    reset=1
+    shift
+fi
+
+file_path="$1.count"
+count_current=$(tail -n 1 $file_path 2>/dev/null)
+
+if [[ reset -eq 1 ]]; then
+    count_max=$2
+    echo $1: Resetting countdown to $count_max
+    echo $count_max > $file_path
+    count_current=$(tail -n 1 $file_path 2>/dev/null)
+
+    if ! mkdir "$file_path.lock" 2>/dev/null; then
+        echo Found $file_path.lock, terminating.
+        exit 1
+    fi
+fi
+
+
+if [[ $count_current -lt 1 ]]; then
+    echo $1: Countdown ended at $count_current
+    rm -rf $file_path.lock
+    exit 0;
+fi
+
+count_current=$((count_current-1))
+echo $1: Decrementing countdown to $count_current
+echo $count_current >> $file_path
+sleep 1
+
+countdown $1 $2

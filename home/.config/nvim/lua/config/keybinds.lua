@@ -1,0 +1,5 @@
+vim.keymap.set('n', '<C-e>', '<cmd>NvimTreeOpen<cr>')
+vim.keymap.set('n', '<down>', 'gj', { remap = true })
+vim.keymap.set('n', '<up>', 'gk', { remap = true })
+vim.keymap.set('n', 'j', 'gj', { remap = true })
+vim.keymap.set('n', 'k', 'gk', { remap = true })

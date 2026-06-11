@@ -1,0 +1,5 @@
+(defpoll is_fullscreen
+  :initial false
+  :interval '0.1s'
+  `$XDG_CONFIG_HOME/eww/scripts/is-fullscreen.sh`
+)

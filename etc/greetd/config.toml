@@ -1,1 +1,6 @@
-/etc/greetd/config.toml
+[terminal]
+vt = 1
+
+[default_session]
+command = "tuigreet --cmd 'uwsm start hyprland.desktop'"
+user = "greeter"

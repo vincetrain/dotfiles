@@ -1,0 +1,25 @@
+#!/bin/bash
+
+dir_path="/tmp/eww/state/"
+file_path="$dir_path/brightness_state"
+
+if [[ $1 == "raise" ]]; then
+    echo Raising brightness by $2%
+    brightnessctl -n624 s +$2%
+elif [[ $1 == "lower" ]]; then
+    echo Lowering brightness by $2%
+    brightnessctl -n624 s $2%-
+elif [[ $1 == "set" ]]; then
+    echo Setting brightness to $2%
+    brightnessctl -n624 s $2%
+else
+    exit 1
+fi
+
+bright_current=$(brightnessctl g)
+bright_max=$(brightnessctl m)
+bright_percent=$(printf %.0f $(echo "$bright_current/$bright_max*100" | bc -l))
+
+sed -i "1d" $file_path
+printf "%d\n" "$bright_percent" >> $file_path
+countdown reset $file_path 2 &
